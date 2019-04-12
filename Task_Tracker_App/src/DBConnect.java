@@ -2,6 +2,7 @@
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.derby.drda.NetworkServerControl;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,8 +14,11 @@ import java.util.logging.Logger;
  * @author zack__000
  */
 public class DBConnect {
+    private static NetworkServerControl server = null;
     DBConnect(){
         try {
+            server = new NetworkServerControl();
+            server.start(null);
         } catch (Exception ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -41,5 +45,14 @@ public class DBConnect {
         return con;
         
     }
-    
+    public static void serverStop(){
+        try {
+            server.shutdown();
+        } catch (Exception ex) {
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public static NetworkServerControl getServer(){
+        return server;
+    }
 }
