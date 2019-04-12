@@ -24,9 +24,17 @@ public class DBConnect {
         try {
             con = DriverManager.getConnection(  
                                             "jdbc:derby://localhost:1527/"
-                                                    + "TaskAppDatabase",
+                                                    + "TaskAppDatabase;create=true",
                                             "userAdmin", 
                                             "userAdmin");
+            ResultSet res = con.getMetaData().getTables(null, "USERADMIN", "LOGINTABLE", null);
+            if(res.next()){
+                
+            }else{
+                System.out.println("Table doesn't exist");
+                Statement statement = con.createStatement();
+                statement.executeUpdate("CREATE TABLE LOGINTABLE (USERNAME VARCHAR(30) PRIMARY KEY, PASSWORD VARCHAR(30), TASKS VARCHAR(500))");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
