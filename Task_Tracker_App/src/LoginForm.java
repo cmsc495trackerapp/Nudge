@@ -133,7 +133,6 @@ public class LoginForm extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         //String login = "SELECT * FROM logintable WHERE username=? AND password=?";
         try {
-            System.out.println(con.toString());
             ps = con.prepareStatement("SELECT * FROM logintable WHERE username=? AND password=?");
             ps.setString(1, userNameField.getText());
             ps.setString(2, passwordField.getText());

@@ -35,7 +35,6 @@ public class DBConnect {
             if(res.next()){
                 
             }else{
-                System.out.println("Table doesn't exist");
                 Statement statement = con.createStatement();
                 statement.executeUpdate("CREATE TABLE LOGINTABLE (USERNAME VARCHAR(30) PRIMARY KEY, PASSWORD VARCHAR(30), TASKS VARCHAR(500))");
             }

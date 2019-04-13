@@ -159,7 +159,6 @@ public class CreateUserForm extends javax.swing.JFrame {
             }
             
         } catch (SQLException ex) {
-            System.out.println("We are here");
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_createUserButtonActionPerformed

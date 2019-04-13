@@ -19,7 +19,6 @@ public class CalendarGUI extends javax.swing.JFrame {
      * Creates new form CalendarGUI
      */
     public CalendarGUI() {
-    	System.out.println("awsfasdf");
         initComponents();
     }
     
