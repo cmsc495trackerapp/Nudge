@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 public class LoginForm extends javax.swing.JFrame {
 
     CreateUserForm createUserForm = new CreateUserForm();
+    CalendarGUI calendar = new CalendarGUI();
     DBConnect db = new DBConnect();
     Connection con = null;
     PreparedStatement ps = null;
@@ -139,7 +140,6 @@ public class LoginForm extends javax.swing.JFrame {
             rs = ps.executeQuery();
             if(rs.next()){
                 JOptionPane.showMessageDialog(null, "Login Passed");
-                CalendarGUI calendar = new CalendarGUI();
                 dispose();
                 calendar.setVisible(true);
             }else{
