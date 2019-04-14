@@ -17,26 +17,30 @@ public class DBConnect {
     private static NetworkServerControl server = null;
     DBConnect(){
         try {
+            //creates apache derby server for db connection
             server = new NetworkServerControl();
             server.start(null);
         } catch (Exception ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public Connection connectDB(){
+    //Creates a connection to the database
+    //Also creates tables and databse if they don't exist.
+    public static Connection connectDB(){
         Connection con = null;
         try {
             con = DriverManager.getConnection(  
                                             "jdbc:derby://localhost:1527/"
-                                                    + "TaskAppDatabase;create=true",
+                                                + "TaskAppDatabase;create=true",
                                             "userAdmin", 
                                             "userAdmin");
             ResultSet res = con.getMetaData().getTables(null, "USERADMIN", "LOGINTABLE", null);
-            if(res.next()){
-                
-            }else{
+            if(!res.next()){
                 Statement statement = con.createStatement();
-                statement.executeUpdate("CREATE TABLE LOGINTABLE (USERNAME VARCHAR(30) PRIMARY KEY, PASSWORD VARCHAR(30), TASKS VARCHAR(500))");
+                statement.executeUpdate("CREATE TABLE LOGINTABLE "
+                        + "(USERNAME VARCHAR(30) PRIMARY KEY, "
+                        + "PASSWORD VARCHAR(30), "
+                        + "TASKS VARCHAR(500))");
             }
         } catch (SQLException ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
