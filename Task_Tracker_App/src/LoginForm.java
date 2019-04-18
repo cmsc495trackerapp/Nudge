@@ -1,6 +1,5 @@
 
 import java.sql.*;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -18,7 +17,6 @@ import javax.swing.JOptionPane;
 public class LoginForm extends javax.swing.JFrame {
 
     CreateUserForm createUserForm = new CreateUserForm();
-    CalendarGUI calendar = new CalendarGUI();
     DBConnect db = new DBConnect();
     Connection con = null;
     PreparedStatement ps = null;
@@ -140,6 +138,7 @@ public class LoginForm extends javax.swing.JFrame {
             if(rs.next()){
                 JOptionPane.showMessageDialog(null, "Login Passed");
                 dispose();
+                SwingCalendar calendar = new SwingCalendar();
                 calendar.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(null, "Login Failed");

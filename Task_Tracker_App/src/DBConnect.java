@@ -17,6 +17,9 @@ public class DBConnect {
     private static NetworkServerControl server = null;
     DBConnect(){
         try {
+        	if(server != null) {
+        		serverStop();
+        	}
             //creates apache derby server for db connection
             server = new NetworkServerControl();
             server.start(null);

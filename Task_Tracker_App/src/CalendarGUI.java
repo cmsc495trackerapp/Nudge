@@ -1,13 +1,9 @@
+import javax.swing.JFrame;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
-/**
- * Orin test comment
- * 
- * 
- * 
  */
 /**
  *
@@ -32,7 +28,13 @@ public class CalendarGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+    	
+    	 //Actual Cal
+        sc = new SwingCalendar();
+        
+        
+        
+        
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -60,6 +62,7 @@ public class CalendarGUI extends javax.swing.JFrame {
                 .addGap(109, 109, 109)
                 .addComponent(jLabel1)
                 .addContainerGap(176, Short.MAX_VALUE))
+            	.addComponent(sc)
         );
 
         pack();
@@ -73,4 +76,5 @@ public class CalendarGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
+    private SwingCalendar sc;
 }
