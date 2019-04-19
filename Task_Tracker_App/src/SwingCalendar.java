@@ -92,18 +92,8 @@ public class SwingCalendar extends JFrame {
         this.add(scrollPane, BorderLayout.CENTER);
         this.add(pane, BorderLayout.WEST);
         //Builds the calendar days.
-        this.updateMonth();
-        //Creates a selection of the current date.
-        Date day = new Date();
-        int date = day.getDate();
-        for(int i = 0; i < table.getColumnCount(); i++) {
-            for(int j = 0; j < table.getRowCount(); j++) {
-                if(table.getValueAt(j,i) != null 
-                        && date == (int) table.getValueAt(j, i)) {
-                    table.changeSelection(j, i, false, false);
-                }
-            }
-        }//end outer for loop.
+        updateMonth();
+        selectCurrentDay(table);
     }//end SwingCalendar constructor.
     //Stops the server
     private void formWindowClosing(java.awt.event.WindowEvent evt) {
@@ -136,4 +126,17 @@ public class SwingCalendar extends JFrame {
             i = i + 1;
         }
     }//end of updateMonth method
+    private void selectCurrentDay(JTable table){
+        //Creates a selection of the current date.
+        Date day = new Date();
+        int date = day.getDate();
+        for(int i = 0; i < table.getColumnCount(); i++) {
+            for(int j = 0; j < table.getRowCount(); j++) {
+                if(table.getValueAt(j,i) != null 
+                        && date == (int) table.getValueAt(j, i)) {
+                    table.changeSelection(j, i, false, false);
+                }
+            }
+        }//end outer for loop.
+    }
 }//end of SwingCalendar class
