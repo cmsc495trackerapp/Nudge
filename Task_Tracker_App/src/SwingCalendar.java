@@ -98,14 +98,10 @@ public class SwingCalendar extends JFrame {
         int date = day.getDate();
         for(int i = 0; i < table.getColumnCount(); i++) {
             for(int j = 0; j < table.getRowCount(); j++) {
-                Object n =  table.getValueAt(j, i);
-                if(n != null) {
-                    if(date == (int) table.getValueAt(j, i)) {
-                            table.clearSelection();
-                            table.changeSelection(j, i, false, false);
-                    }
+                if(table.getValueAt(j,i) != null 
+                        && date == (int) table.getValueAt(j, i)) {
+                    table.changeSelection(j, i, false, false);
                 }
-
             }
         }//end outer for loop.
     }//end SwingCalendar constructor.
