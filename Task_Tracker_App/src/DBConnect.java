@@ -1,18 +1,14 @@
-
+/*File: DBConnect.java
+ *Author: Zackary Scott
+ *Date: 4/18/2019
+ *Purpose: Creates a server connection and connects to a database to set and
+ *get data.
+ */
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.derby.drda.NetworkServerControl;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author zack__000
- */
 public class DBConnect {
     private static NetworkServerControl server = null;
     DBConnect(){
@@ -21,11 +17,13 @@ public class DBConnect {
             server = new NetworkServerControl();
             server.start(null);
         } catch (Exception ex) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, 
+                                                            null, 
+                                                            ex);
         }
     }
     //Creates a connection to the database
-    //Also creates tables and databse if they don't exist.
+    //Also creates tables and database if they don't exist.
     public static Connection connectDB(){
         Connection con = null;
         try {
@@ -34,7 +32,10 @@ public class DBConnect {
                                                 + "TaskAppDatabase;create=true",
                                             "userAdmin", 
                                             "userAdmin");
-            ResultSet res = con.getMetaData().getTables(null, "USERADMIN", "LOGINTABLE", null);
+            ResultSet res = con.getMetaData().getTables(null, 
+                                                        "USERADMIN", 
+                                                        "LOGINTABLE",
+                                                        null);
             if(!res.next()){
                 Statement statement = con.createStatement();
                 statement.executeUpdate("CREATE TABLE LOGINTABLE "
@@ -43,16 +44,20 @@ public class DBConnect {
                         + "TASKS VARCHAR(500))");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, 
+                                                            null,
+                                                            ex);
         }
         return con;
-        
     }
+    //Shutsdown the server
     public static void serverStop(){
         try {
             server.shutdown();
         } catch (Exception ex) {
-            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, 
+                                                            null, 
+                                                            ex);
         }
     }
     public static NetworkServerControl getServer(){

@@ -1,32 +1,21 @@
-
+/*File: LoginForm.java
+ *Author: Zackary Scott
+ *Date: 4/18/2019
+ *Purpose: Allows for a user to login to get data on their calendar.
+ */
 import java.sql.*;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author zack__000
- */
 public class LoginForm extends javax.swing.JFrame {
-
+    //variables needed for class
     CreateUserForm createUserForm = new CreateUserForm();
-    CalendarGUI calendar = new CalendarGUI();
     DBConnect db = new DBConnect();
     Connection con = null;
     PreparedStatement ps = null;
     ResultSet rs = null;
-    
-    /**
-     * Creates new form LoginForm
-     */
+    //Constructor
     public LoginForm() {
         initComponents();
         con = db.connectDB();
@@ -131,15 +120,17 @@ public class LoginForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        //String login = "SELECT * FROM logintable WHERE username=? AND password=?";
+        //Tries to get user login information.
         try {
-            ps = con.prepareStatement("SELECT * FROM logintable WHERE username=? AND password=?");
+            ps = con.prepareStatement("SELECT * FROM logintable "
+                                        + "WHERE username=? AND password=?");
             ps.setString(1, userNameField.getText());
             ps.setString(2, passwordField.getText());
             rs = ps.executeQuery();
             if(rs.next()){
                 JOptionPane.showMessageDialog(null, "Login Passed");
                 dispose();
+                SwingCalendar calendar = new SwingCalendar();
                 calendar.setVisible(true);
             }else{
                 JOptionPane.showMessageDialog(null, "Login Failed");
@@ -161,9 +152,9 @@ public class LoginForm extends javax.swing.JFrame {
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordFieldActionPerformed
-
+    //Stops server on closing window.
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        DBConnect.serverStop();        // TODO add your handling code here:
+        DBConnect.serverStop();
     }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

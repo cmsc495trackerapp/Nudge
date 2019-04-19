@@ -1,30 +1,24 @@
-
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/*File: CreateUserForm.java
+ *Author: Zackary Scott
+ *Date: 4/18/2019
+ *Purpose: Creates a form to allow new users to register.
  */
-
-/**
- *
- * @author zack__000
+import java.sql.*;
+import javax.swing.JOptionPane;
+/*
+ *TODO: Implement the DBConnect class to get and store information to the tasks
+ *area. The User.java and Task.java classes will need to be implemented to 
+ *complete this TODO. The Calendar should also put an asterisk next to a date
+ *that has a task.
  */
 public class CreateUserForm extends javax.swing.JFrame {
     DBConnect db = new DBConnect();
     Connection con = null;
-    /**
-     * Creates new form CreateUserForm
-     */
+    //Constructor
     public CreateUserForm() {
         initComponents();
         con = db.connectDB();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,15 +135,16 @@ public class CreateUserForm extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordFieldTwoActionPerformed
 
     private void createUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createUserButtonActionPerformed
-
+        //Tries to put information into the LoginTable in the Database.
         try {
-            Statement statement = con.createStatement();
             if(passwordField.getText().equals(passwordFieldTwo.getText())
                     &&!userNameField.getText().isEmpty()){
-                statement.executeUpdate("INSERT INTO logintable " 
-                        + "VALUES ('"+userNameField.getText()
-                        +"','"+passwordField.getText()+"',null)");
-                JOptionPane.showMessageDialog(null, "User Created");
+                PreparedStatement ps = con.prepareStatement("INSERT INTO "
+                                        + "logintable VALUES (? , ? , null)");
+                ps.setString(1,userNameField.getText());
+                ps.setString(2, passwordField.getText());
+                ps.executeUpdate();JOptionPane.showMessageDialog(null, 
+                        "User created successfully!");
                 dispose();
                 LoginForm login = new LoginForm();
                 login.setVisible(true);
@@ -157,21 +152,19 @@ public class CreateUserForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, 
                         "Check user name or password and try again!");
             }
-            
         } catch (SQLException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "User name is already in use.");
         }
     }//GEN-LAST:event_createUserButtonActionPerformed
 
     private void userNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userNameFieldActionPerformed
-
+    //Stops server on closing window.
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         DBConnect.serverStop();
     }//GEN-LAST:event_formWindowClosing
-
-    
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton createUserButton;
     private javax.swing.JLabel jLabel1;
