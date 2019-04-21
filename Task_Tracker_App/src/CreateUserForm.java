@@ -3,7 +3,9 @@
  *Date: 4/18/2019
  *Purpose: Creates a form to allow new users to register.
  */
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 /*
  *TODO: Implement the DBConnect class to get and store information to the tasks

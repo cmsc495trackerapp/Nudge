@@ -5,8 +5,10 @@
         <group>
             <file>file:/C:/Users/zack_/Documents/GitHub/TrackerAppProtoOne/Task_Tracker_App/src/DBConnect.java</file>
             <file>file:/C:/Users/zack_/Documents/GitHub/TrackerAppProtoOne/Task_Tracker_App/src/CreateUserForm.java</file>
+            <file>file:/C:/Users/zack_/Documents/GitHub/TrackerAppProtoOne/Task_Tracker_App/src/User.java</file>
             <file>file:/C:/Users/zack_/Documents/GitHub/TrackerAppProtoOne/Task_Tracker_App/src/LoginForm.java</file>
-            <file>file:/C:/Users/zack_/Documents/GitHub/TrackerAppProtoOne/Task_Tracker_App/src/CalendarGUI.java</file>
+            <file>file:/C:/Users/zack_/Documents/GitHub/TrackerAppProtoOne/Task_Tracker_App/src/SwingCalendar.java</file>
+            <file>file:/C:/Users/zack_/Documents/GitHub/TrackerAppProtoOne/Task_Tracker_App/src/Task.java</file>
             <file>file:/C:/Users/zack_/Documents/GitHub/TrackerAppProtoOne/Task_Tracker_App/src/MainUIDriver.java</file>
         </group>
     </open-files>
