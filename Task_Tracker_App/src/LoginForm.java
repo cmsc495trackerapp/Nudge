@@ -67,7 +67,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
-        createUser.setText("Create User");
+        createUser.setText("New User");
         createUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createUserActionPerformed(evt);
