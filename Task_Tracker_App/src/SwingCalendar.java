@@ -64,6 +64,15 @@ public class SwingCalendar extends JFrame {
                 updateMonth();
             }
         });
+        
+        //Opens a NewEvent window when clicked 
+        JButton b3 = new JButton("Create New Event");
+        b3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                NewEvent event = new NewEvent();
+                event.setVisible(true);
+            }
+        });
         //Variables for Calendar
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
@@ -103,6 +112,7 @@ public class SwingCalendar extends JFrame {
         this.add(panel, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
         this.add(pane, BorderLayout.WEST);
+        this.add(b3, BorderLayout.SOUTH);
         //Builds the calendar days.
         updateMonth();
         selectCurrentDay(table);
