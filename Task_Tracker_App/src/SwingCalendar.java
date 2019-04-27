@@ -4,25 +4,31 @@
  *Purpose: Creates a Calendar for the User to store tasks on any given day.
  */
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 
-public class SwingCalendar extends JFrame {
+public class SwingCalendar extends JFrame implements TableCellRenderer{
     NewEvent event;
     String currentDateSelected;
 
@@ -113,13 +119,35 @@ public class SwingCalendar extends JFrame {
         JScrollPane pane = new JScrollPane(table);
         pane.setPreferredSize(new Dimension(225, 150));
         //Task text area.
-        JTextArea textArea = new JTextArea();
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        
+        List<Task> tasks = new ArrayList();
+    	Task task1 = new Task("today","get eggs");
+    	Task task2 = new Task("today","get asdfasdf");
+    	Task task3 = new Task("today","get egasdgasgs");
+    	Task task4 = new Task("today","get asdjasrdtjhga");
+    	Task task5 = new Task("today","get asdjsadfh");
+    	tasks.add(task1);
+    	tasks.add(task2);
+    	tasks.add(task3);
+    	tasks.add(task4);
+    	tasks.add(task5);
+        
+    	getTableCellRendererComponent();
+        
+    	JTable table2 = new JTable(data,colNames);
+        JScrollPane scrollPane = new JScrollPane(table2);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        textArea.setLineWrap(true);
-        textArea.setEditable(true);
         scrollPane.setPreferredSize(new Dimension(250, 250));
-        //adds the information to the JFrame
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         this.add(panel, BorderLayout.NORTH);
         this.add(scrollPane, BorderLayout.CENTER);
         this.add(pane, BorderLayout.WEST);
@@ -128,10 +156,75 @@ public class SwingCalendar extends JFrame {
         updateMonth();
         selectCurrentDay(table);
     }//end SwingCalendar constructor.
+    
+    
+     public Component getTableCellRendererComponent(JTable table, Object value,
+            boolean isSelected, boolean hasFocus, int row, int column) {
+    	 Task task = (Task)value;
+        JButton showButton = new JButton("Edit");
+        showButton.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent arg0) {
+            JOptionPane.showMessageDialog(null, "HA-HA!");
+          }
+        });
+
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.add(new JLabel(task.getTask()));
+        panel.add(showButton);
+
+        if (isSelected) {
+          panel.setBackground(table.getSelectionBackground());
+        }else{
+          panel.setBackground(table.getBackground());
+        }
+        return panel;
+      }
+    
+    
+    
+    
+    
     //Stops the server
     private void formWindowClosing(java.awt.event.WindowEvent evt) {
         DBConnect.serverStop();
     }
+    
+//    //UpdateTasks
+//    private void populateTasks(JScrollPane scrollPane) {
+//    	
+//    	//get task from User.java from selected date
+//    	List<Task> tasks = new ArrayList();
+//    	Task task1 = new Task("today","get eggs");
+//    	Task task2 = new Task("today","get asdfasdf");
+//    	Task task3 = new Task("today","get egasdgasgs");
+//    	Task task4 = new Task("today","get asdjasrdtjhga");
+//    	Task task5 = new Task("today","get asdjsadfh");
+//    	tasks.add(task1);
+//    	tasks.add(task2);
+//    	tasks.add(task3);
+//    	tasks.add(task4);
+//    	tasks.add(task5);
+//    	
+//    	Object[] colNames = {"Task","Edit","Delete"};
+//    	Object[][] data = new Object[tasks.size()][3];
+//    	
+//    	for (int i = 0; i < tasks.size(); i++) {
+//    		data[i][1] = tasks.get(i).getTask();
+//    	}
+//    	
+//    	JTable table = new JTable(data,colNames);
+//    	scrollPane.add(table);
+//    	
+//    	
+//    }
+    
+    private void addTaskBlock() {
+    	
+    	
+    	
+    	
+    }
+    
     //Updates the month.
     private void updateMonth() {
         cal.set(Calendar.DAY_OF_MONTH, 1);
