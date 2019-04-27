@@ -23,6 +23,8 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class SwingCalendar extends JFrame {
+    NewEvent event;
+    String currentDateSelected;
 
     /**
      * Serial UID
@@ -69,7 +71,6 @@ public class SwingCalendar extends JFrame {
         JButton b3 = new JButton("Create New Event");
         b3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
-                NewEvent event = new NewEvent();
                 event.setVisible(true);
             }
         });
@@ -103,7 +104,7 @@ public class SwingCalendar extends JFrame {
                     System.out.println("Selected: " + selectedDay);
 
                 }
-                System.out.println(month+" "+ selectedDay+" "+year);
+                event.updateBox(month+" "+ selectedDay+" "+year);
             }
         });
         JScrollPane pane = new JScrollPane(table);
@@ -168,7 +169,7 @@ public class SwingCalendar extends JFrame {
             }
         }//end outer for loop.
         String strArray[] = date.toString().split(" ");
-        String str = strArray[1]+" "+strArray[2]+" "+strArray[5];
-        System.out.println(str);
+        currentDateSelected = strArray[1]+" "+strArray[2]+" "+strArray[5];
+        event = new NewEvent(currentDateSelected);
     }
 }//end of SwingCalendar class

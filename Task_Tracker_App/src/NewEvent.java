@@ -9,12 +9,12 @@
  * @author chihiro
  */
 public class NewEvent extends javax.swing.JFrame {
-
     /**
      * Creates new form CreateNewEventGUI
      */
-    public NewEvent() {
+    public NewEvent(String currentDate) {
         initComponents();
+        updateBox(currentDate);
     }
 
     /**
@@ -193,7 +193,9 @@ public class NewEvent extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-
+    public void updateBox(String currentDate){
+        jFormattedTextField1.setText(currentDate);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
