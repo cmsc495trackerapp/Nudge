@@ -104,7 +104,10 @@ public class SwingCalendar extends JFrame {
                     System.out.println("Selected: " + selectedDay);
 
                 }
-                event.updateBox(month+" "+ selectedDay+" "+year);
+                if(selectedDay != null) {
+                	event.updateBox(month+" "+ selectedDay+" "+year);
+                }
+                
             }
         });
         JScrollPane pane = new JScrollPane(table);
