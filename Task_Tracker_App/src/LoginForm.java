@@ -50,6 +50,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        userNameField.setText("admin");
         userNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userNameFieldActionPerformed(evt);
@@ -74,6 +75,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        passwordField.setText("password");
         passwordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordFieldActionPerformed(evt);
@@ -131,6 +133,9 @@ public class LoginForm extends javax.swing.JFrame {
             ps.setString(2, passwordField.getText());
             rs = ps.executeQuery();
             if(rs.next()){
+                //this rs.getString is how we will get data from db to pass
+                //back into the app.
+                System.out.println(rs.getString("USERNAME"));
                 JOptionPane.showMessageDialog(null, "Login Passed");
                 dispose();
                 SwingCalendar calendar = new SwingCalendar();

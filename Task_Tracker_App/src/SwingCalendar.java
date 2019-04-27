@@ -89,14 +89,21 @@ public class SwingCalendar extends JFrame {
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
              public void mouseClicked(java.awt.event.MouseEvent evt) {
+                String month = cal.getDisplayName(Calendar.MONTH, 
+                                            Calendar.LONG, 
+                                            Locale.US);
+                char monthChar[] = {month.charAt(0),month.charAt(1),month.charAt(2)};
+                month = String.valueOf(monthChar);
+                int year = cal.get(Calendar.YEAR);
                 int row = table.rowAtPoint(evt.getPoint());
                 int col = table.columnAtPoint(evt.getPoint());
+                Integer selectedDay = null;
                 if (row >= 0 && col >= 0) {
-                    Integer selectedData = null;
-                    selectedData =   (Integer) table.getValueAt(row, col);
-                    System.out.println("Selected: " + selectedData);
+                    selectedDay =   (Integer) table.getValueAt(row, col);
+                    System.out.println("Selected: " + selectedDay);
 
                 }
+                System.out.println(month+" "+ selectedDay+" "+year);
             }
         });
         JScrollPane pane = new JScrollPane(table);
@@ -150,15 +157,18 @@ public class SwingCalendar extends JFrame {
     }//end of updateMonth method
     private void selectCurrentDay(JTable table){
         //Creates a selection of the current date.
-        Date day = new Date();
-        int date = day.getDate();
+        Date date = new Date();
+        int day = date.getDate();
         for(int i = 0; i < table.getColumnCount(); i++) {
             for(int j = 0; j < table.getRowCount(); j++) {
                 if(table.getValueAt(j,i) != null 
-                        && date == (int) table.getValueAt(j, i)) {
+                        && day == (int) table.getValueAt(j, i)) {
                     table.changeSelection(j, i, false, false);
                 }
             }
         }//end outer for loop.
+        String strArray[] = date.toString().split(" ");
+        String str = strArray[1]+" "+strArray[2]+" "+strArray[5];
+        System.out.println(str);
     }
 }//end of SwingCalendar class
