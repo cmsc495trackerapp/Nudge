@@ -43,9 +43,22 @@ public class DBConnect {
             if(!res.next()){
                 Statement statement = con.createStatement();
                 statement.executeUpdate("CREATE TABLE LOGINTABLE "
-                        + "(USERNAME VARCHAR(30) PRIMARY KEY, "
-                        + "PASSWORD VARCHAR(30), "
-                        + "TASKS VARCHAR(500))");
+                        +"(USERNAME VARCHAR(30) PRIMARY KEY, "
+                        +"PASSWORD VARCHAR(30))");
+            }
+            ResultSet resTwo = con.getMetaData().getTables(null, 
+                                                        "USERADMIN", 
+                                                        "TASKTABLE",
+                                                        null);
+            if(!resTwo.next()){
+                Statement statement = con.createStatement();
+                statement.executeUpdate("CREATE TABLE TASKTABLE "
+                        +"(ID INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, "
+                        +"USERNAME VARCHAR(30) NOT NULL, "
+                        +"CATEGORY VARCHAR(30) NOT NULL, "
+                        +"DATE VARCHAR(20)  NOT NULL, "
+                        +"TIME VARCHAR(20)  NOT NULL, "
+                        +"TASK  VARCHAR(500) NOT NULL)");
             }
         } catch (SQLException ex) {
             Logger.getLogger(DBConnect.class.getName()).log(Level.SEVERE, 

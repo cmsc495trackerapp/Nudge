@@ -1,16 +1,22 @@
 /*File: Task.java
- *Author: Zackary Scott Orin
+ *Author: Zackary Scott, Orin
  *Date: 4/18/2019
- *Purpose: Creates a Task object stored in the User HashMap.
+ *Purpose: Task is the object that will be stored in the User HashMap by the
+ *NewEvent.java file.
  */
 public class Task {
     //Variables to store task information
     private String date = "";
     private String task = "";
+    private String time = "";
+    private String category = "";
+    private int id;
     //Constructor
-    Task(String date, String task){
+    Task(String category, String date, String time, String task){
+        this.category = category;
         this.date = date;
         this.task = task;
+        this.time = time;
     }
     //toString override to return date and task string
     @Override
