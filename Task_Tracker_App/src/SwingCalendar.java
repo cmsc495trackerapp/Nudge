@@ -127,7 +127,7 @@ public class SwingCalendar extends JFrame {
 		// Task text area.
 
 		Task task1 = new Task("today",
-				"get eggs ajk,hsdf kahskdfhakiskjh  kjhaskjdbfkabsd   ahsdljfbalsd   ajshdlf hasd alshdlf ahsdlkfh alsdhf lalkjkh ljkh l alshkldjhd");
+				"get eggs ajk,hsdf");
 		Task task2 = new Task("today", "get asdfasdf");
 		Task task3 = new Task("today", "get egasdgasgs");
 		Task task4 = new Task("today", "get asdjasrdtjhga");
@@ -140,14 +140,18 @@ public class SwingCalendar extends JFrame {
 
 		Object[] colNames = { "Task" };
 		Object[][] data = new Object[tasks.size()][1];
-		JTable table2 = new JTable(data, colNames);
+                JTable table2 = new JTable(new TaskTableModel(tasks));
 
 		for (int i = 0; i < tasks.size(); i++) {
-			data[i][0] = new JPanel();
+			data[i][0] = tasks.get(i);
 		}
-
-		table2.getColumn("Task").setCellRenderer(new EventCell());
-		table2.setRowHeight(30);
+                table2.getColumn("Tasks").setCellRenderer(new EventCell());
+                table2.getColumn("Tasks").setCellEditor(new EventCell());
+		//table2.getColumn("Task").setCellRenderer(new EventCell());
+                //table2.setDefaultRenderer(EventCell.class, new EventCell());
+                //table2.setDefaultEditor(EventCell.class, new EventCell());
+		table2.setRowHeight(50);
+      
 
 		JScrollPane scrollPane = new JScrollPane(table2);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -166,6 +170,7 @@ public class SwingCalendar extends JFrame {
 		  /**
 		 * 
 		 */
+                String column[] = {"Tasks"};
 		private static final long serialVersionUID = 1L;
 		List<Task> tasks;
 		  public TaskTableModel(List<Task> tasks) {
@@ -184,6 +189,11 @@ public class SwingCalendar extends JFrame {
 			return (tasks == null) ? null : tasks.get(rowIndex);
 		}
 		public boolean isCellEditable(int columnIndex, int rowIndex) { return true; }
+                String[] employee = {"Employee 1", "Employee 2"};
+                @Override
+                public String getColumnName(int index) {
+                    return column[index];
+                }
 	}
 	
 	
@@ -200,7 +210,7 @@ public class SwingCalendar extends JFrame {
 
 		public EventCell() {
 			text = new JLabel();
-			showButton = new JButton("View Articles");
+			showButton = new JButton("Edit");
 			showButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					JOptionPane.showMessageDialog(null, "Reading " + task.getTask());
@@ -291,23 +301,5 @@ public class SwingCalendar extends JFrame {
 		String strArray[] = date.toString().split(" ");
 		currentDateSelected = strArray[1] + " " + strArray[2] + " " + strArray[5];
 		event = new NewEvent(currentDateSelected);
-	}
-
-	@Override
-	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Object getValueAt(int arg0, int arg1) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }// end of SwingCalendar class
