@@ -14,7 +14,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -29,7 +28,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
@@ -103,7 +101,6 @@ public class SwingCalendar extends JFrame {
 		table.setCellSelectionEnabled(true);
 		// Cell Listener
                 //This is when date is clicked
-		/* TODO: display tasks when the date is selected */
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
                     @Override
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -119,10 +116,9 @@ public class SwingCalendar extends JFrame {
                                 System.out.println("Selected: " + selectedDay);
 
                         }
+                        //Updates teh frames from the methods when date
+                        //is clicked.
                         if (selectedDay != null) {
-                            
-                            //TODO: update JPanel on task when clicked.
-                            //work out the bugs for updating the frame.
                             currentDateSelected = formatMonthStr(month) + "/" + selectedDay + "/" + year;
                             event.updateBox(currentDateSelected);
                             updateTaskPanelForCurrentDaySelected(currentDateSelected);
@@ -211,7 +207,7 @@ public class SwingCalendar extends JFrame {
 		JLabel text;
 		JButton showButton;
 		Task task;
-
+                //constructor
 		public EventCell() {
 			text = new JLabel();
 			showButton = new JButton("Edit");
@@ -266,7 +262,7 @@ public class SwingCalendar extends JFrame {
 	private void formWindowClosing(java.awt.event.WindowEvent evt) {
 		DBConnect.serverStop();
 	}
-        
+        //formats month
         private String formatMonthStr(String month){
             switch(month.toUpperCase()){
                 case "JAN":
@@ -323,7 +319,7 @@ public class SwingCalendar extends JFrame {
 			i = i + 1;
 		}
 	}// end of updateMonth method
-
+        //selects current day at start of program.
 	private void selectCurrentDay(JTable table) {
 		// Creates a selection of the current date.
 		Date date = new Date();
@@ -341,28 +337,27 @@ public class SwingCalendar extends JFrame {
                 updateTaskPanelForCurrentDaySelected(currentDateSelected);
 		event = new NewEvent(currentDateSelected, user, this);
 	}
-        
+        //updates the task panel when a date is clicked
         public void updateTaskPanelForCurrentDaySelected(String currentDateSelected){
+            //removes current user list
             while(user.getTasks().size()>0){
                 user.newTasksList();
             }
-            
+            //adds tasks to user list for current date.
             try{
                 PreparedStatement ps2 = con.prepareStatement("SELECT * FROM TASKTABLE "
                                         + "WHERE username=? AND date=?");
                 ps2.setString(1,user.getName());
                 ps2.setString(2, currentDateSelected);
                 ResultSet rs2 = ps2.executeQuery();
-                int count = 0;
                 while(rs2.next()){
-                    System.out.println(rs2.getString("TASK"));
-                    count++;
                     user.getTasks().add(new Task(rs2.getString("category"),rs2.getString("date"), rs2.getString("time"), rs2.getString("task")));
                 }
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
         }
+        //makes the table from the user ArrayList<Task> object.
         public JTable taskTableMaker(){
                 Object[][] data = new Object[user.getTasks().size()][1];
                 JTable table2 = new JTable(new TaskTableModel(user.getTasks()));
@@ -380,6 +375,7 @@ public class SwingCalendar extends JFrame {
                 table2.setFocusable(false);
                 return table2;
         }
+        //repaints the frame.
         public void repaintTheFrame(){
             this.invalidate();
             this.validate();
