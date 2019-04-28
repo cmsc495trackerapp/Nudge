@@ -142,7 +142,7 @@ public class CreateUserForm extends javax.swing.JFrame {
             if(passwordField.getText().equals(passwordFieldTwo.getText())
                     &&!userNameField.getText().isEmpty()){
                 PreparedStatement ps = con.prepareStatement("INSERT INTO "
-                                        + "logintable VALUES (? , ? , null)");
+                                        + "logintable VALUES (? , ?)");
                 ps.setString(1,userNameField.getText());
                 ps.setString(2, passwordField.getText());
                 ps.executeUpdate();JOptionPane.showMessageDialog(null, 
