@@ -246,6 +246,7 @@ public class NewEvent extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, 
                         "Task created successfully!");
                 dispose();
+                repaintFrame();
             }else{
                 JOptionPane.showMessageDialog(null, 
                         "Check user name or password and try again!");
@@ -266,6 +267,8 @@ public class NewEvent extends javax.swing.JFrame {
 
     public void updateBox(String currentDate){
         dateTextField.setText(currentDate);
+    }
+    private void repaintFrame(){
         frame.invalidate();
         frame.validate();
         frame.repaint();
