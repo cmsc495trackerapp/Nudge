@@ -1,5 +1,5 @@
 /*File: Task.java
- *Author: Zackary Scott
+ *Author: Zackary Scott Orin
  *Date: 4/18/2019
  *Purpose: Creates a Task object stored in the User HashMap.
  */
@@ -17,4 +17,27 @@ public class Task {
     public String toString(){
        return date + "\n" +task; 
     }
+    
+    //getters
+    public String getDate(){
+    	
+		return this.date;
+    }
+    
+    public String getTask(){
+    	
+		return this.task;
+    }
+    
+    //setters
+    public void setDate(String date){
+    	this.date = date;
+    }
+    
+    public void setTask(String task){
+    	this.task = task;
+    }
+    
+    
+    
 }
