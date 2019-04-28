@@ -227,6 +227,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="dateTextField">
       <Properties>
+        <Property name="editable" type="boolean" value="false"/>
         <Property name="toolTipText" type="java.lang.String" value="Format MM/DD/YEAR numbers only."/>
       </Properties>
       <Events>

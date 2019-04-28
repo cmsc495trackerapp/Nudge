@@ -125,6 +125,7 @@ public class NewEvent extends javax.swing.JFrame {
 
         jLabel5.setText("Start Time");
 
+        dateTextField.setEditable(false);
         dateTextField.setToolTipText("Format MM/DD/YEAR numbers only.");
         dateTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
