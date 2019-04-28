@@ -233,8 +233,7 @@ public class NewEvent extends javax.swing.JFrame {
                 ps.executeUpdate();
                 ResultSet key = ps.getGeneratedKeys();
                 while(key.next()){
-                    System.out.println(key.getInt(1));
-                    user.getTasks().add(new Task(category,date,time,task));
+                    user.getTasks().add(new Task(category,date,time,task, key.getInt(1)));
                 }
                 
                 JOptionPane.showMessageDialog(null, 
