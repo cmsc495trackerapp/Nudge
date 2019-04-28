@@ -16,6 +16,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+
+import javax.swing.AbstractAction;
+import javax.swing.AbstractCellEditor;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +29,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 public class SwingCalendar extends JFrame {
@@ -39,6 +45,7 @@ public class SwingCalendar extends JFrame {
 	DefaultTableModel model;
 	Calendar cal = new GregorianCalendar();
 	JLabel label;
+	List<Task> tasks = new ArrayList();
 
 	// Constructor
 	SwingCalendar() {
@@ -119,8 +126,8 @@ public class SwingCalendar extends JFrame {
 		pane.setPreferredSize(new Dimension(225, 150));
 		// Task text area.
 
-		List<Task> tasks = new ArrayList();
-		Task task1 = new Task("today", "get eggs");
+		Task task1 = new Task("today",
+				"get eggs ajk,hsdf kahskdfhakiskjh  kjhaskjdbfkabsd   ahsdljfbalsd   ajshdlf hasd alshdlf ahsdlkfh alsdhf lalkjkh ljkh l alshkldjhd");
 		Task task2 = new Task("today", "get asdfasdf");
 		Task task3 = new Task("today", "get egasdgasgs");
 		Task task4 = new Task("today", "get asdjasrdtjhga");
@@ -135,16 +142,13 @@ public class SwingCalendar extends JFrame {
 		Object[][] data = new Object[tasks.size()][1];
 		JTable table2 = new JTable(data, colNames);
 
-		
-		
 		for (int i = 0; i < tasks.size(); i++) {
-    		data[i][0] = tasks.get(i).getTask();
-    	}
+			data[i][0] = new JPanel();
+		}
 
-		table2.getColumn("Task").setCellRenderer(new CellRenderer());
-		
-		
-		
+		table2.getColumn("Task").setCellRenderer(new EventCell());
+		table2.setRowHeight(30);
+
 		JScrollPane scrollPane = new JScrollPane(table2);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setPreferredSize(new Dimension(250, 250));
@@ -158,26 +162,86 @@ public class SwingCalendar extends JFrame {
 		selectCurrentDay(table);
 	}// end SwingCalendar constructor.
 
-	class CellRenderer implements TableCellRenderer {
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			Task task = (Task) value;
-			JButton showButton = new JButton("Edit");
+	public class TaskTableModel extends AbstractTableModel {
+		  /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		List<Task> tasks;
+		  public TaskTableModel(List<Task> tasks) {
+		    this.tasks = tasks;
+		  }
+		@Override
+		public int getColumnCount() {
+			return 1;
+		}
+		@Override
+		public int getRowCount() {
+			return (tasks == null) ? 0 : tasks.size();
+		}
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			return (tasks == null) ? null : tasks.get(rowIndex);
+		}
+		public boolean isCellEditable(int columnIndex, int rowIndex) { return true; }
+	}
+	
+	
+	
+	class EventCell extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		JPanel panel;
+		JLabel text;
+		JButton showButton;
+		Task task;
+
+		public EventCell() {
+			text = new JLabel();
+			showButton = new JButton("View Articles");
 			showButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					JOptionPane.showMessageDialog(null, "HA-HA!");
+					JOptionPane.showMessageDialog(null, "Reading " + task.getTask());
 				}
 			});
-
-			JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			panel.add(new JLabel(task.getTask()));
+			panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			panel.add(text);
 			panel.add(showButton);
+		}
+
+		private void updateData(Task task, boolean isSelected, JTable table) {
+			this.task = task;
+
+			text.setText("" + task.getTask() + "");
 
 			if (isSelected) {
 				panel.setBackground(table.getSelectionBackground());
 			} else {
 				panel.setBackground(table.getBackground());
 			}
+		}
+
+		@Override
+		public Object getCellEditorValue() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+			Task task = (Task) value;
+			updateData(task, isSelected, table);
+			return panel;
+		}
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			Task task = (Task) value;
+			updateData(task, isSelected, table);
 			return panel;
 		}
 	}
@@ -185,39 +249,6 @@ public class SwingCalendar extends JFrame {
 	// Stops the server
 	private void formWindowClosing(java.awt.event.WindowEvent evt) {
 		DBConnect.serverStop();
-	}
-
-//    //UpdateTasks
-//    private void populateTasks(JScrollPane scrollPane) {
-//    	
-//    	//get task from User.java from selected date
-//    	List<Task> tasks = new ArrayList();
-//    	Task task1 = new Task("today","get eggs");
-//    	Task task2 = new Task("today","get asdfasdf");
-//    	Task task3 = new Task("today","get egasdgasgs");
-//    	Task task4 = new Task("today","get asdjasrdtjhga");
-//    	Task task5 = new Task("today","get asdjsadfh");
-//    	tasks.add(task1);
-//    	tasks.add(task2);
-//    	tasks.add(task3);
-//    	tasks.add(task4);
-//    	tasks.add(task5);
-//    	
-//    	Object[] colNames = {"Task","Edit","Delete"};
-//    	Object[][] data = new Object[tasks.size()][3];
-//    	
-//    	for (int i = 0; i < tasks.size(); i++) {
-//    		data[i][1] = tasks.get(i).getTask();
-//    	}
-//    	
-//    	JTable table = new JTable(data,colNames);
-//    	scrollPane.add(table);
-//    	
-//    	
-//    }
-
-	private void addTaskBlock() {
-
 	}
 
 	// Updates the month.
@@ -260,5 +291,23 @@ public class SwingCalendar extends JFrame {
 		String strArray[] = date.toString().split(" ");
 		currentDateSelected = strArray[1] + " " + strArray[2] + " " + strArray[5];
 		event = new NewEvent(currentDateSelected);
+	}
+
+	@Override
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getRowCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Object getValueAt(int arg0, int arg1) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }// end of SwingCalendar class

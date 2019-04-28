@@ -10,3 +10,7 @@
 /SwingCalendar$6.class
 /SwingCalendar$CellRenderer$1.class
 /SwingCalendar$CellRenderer.class
+/SwingCalendar$EventCell$1.class
+/SwingCalendar$EventCell.class
+/SwingCalendar$TaskTableModel$EventCell.class
+/SwingCalendar$TaskTableModel.class
