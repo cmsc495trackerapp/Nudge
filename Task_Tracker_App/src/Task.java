@@ -12,11 +12,12 @@ public class Task {
     private String category = "";
     private int id;
     //Constructor
-    Task(String category, String date, String time, String task){
+    Task(String category, String date, String time, String task, int id){
         this.category = category;
         this.date = date;
         this.task = task;
         this.time = time;
+        this.id = id;
     }
     //toString override to return date and task string
     @Override

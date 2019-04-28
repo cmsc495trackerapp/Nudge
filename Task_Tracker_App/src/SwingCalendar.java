@@ -351,7 +351,7 @@ public class SwingCalendar extends JFrame {
                 ps2.setString(2, currentDateSelected);
                 ResultSet rs2 = ps2.executeQuery();
                 while(rs2.next()){
-                    user.getTasks().add(new Task(rs2.getString("category"),rs2.getString("date"), rs2.getString("time"), rs2.getString("task")));
+                    user.getTasks().add(new Task(rs2.getString("category"),rs2.getString("date"), rs2.getString("time"), rs2.getString("task"), rs2.getInt(1)));
                 }
             }catch(SQLException ex){
                 ex.printStackTrace();
