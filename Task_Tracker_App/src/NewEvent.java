@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /*File: User.java
@@ -212,7 +211,7 @@ public class NewEvent extends javax.swing.JFrame {
     private void nameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameTextFieldActionPerformed
-
+    //this saves the task to the database and repaints the SwingCalendar
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
             if(!nameTextField.getText().isEmpty()
@@ -237,23 +236,18 @@ public class NewEvent extends javax.swing.JFrame {
                     System.out.println(key.getInt(1));
                     user.getTasks().add(new Task(category,date,time,task));
                 }
-                //This commneted out query checks to make sure the auto incr
-                //is working in the database.
-                //Statement getQuery = con.createStatement();
-                //ResultSet rs2 = getQuery.executeQuery("SELECT ID FROM TASKTABLE");
-                //while(rs2.next()){
-                //    System.out.println(rs2.getInt(1));
-                //}
+                
                 JOptionPane.showMessageDialog(null, 
                         "Task created successfully!");
                 dispose();
                 repaintFrame();
             }else{
                 JOptionPane.showMessageDialog(null, 
-                        "Check user name or password and try again!");
+                        "Check to make everything is filled in!");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Wrong format for input.");
             //JOptionPane.showMessageDialog(null, "Please fill out all data fields.");
         }
     }//GEN-LAST:event_saveButtonActionPerformed
