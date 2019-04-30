@@ -263,6 +263,7 @@ public class NewEvent extends javax.swing.JFrame {
         dateTextField.setText(currentDate);
     }
     private void repaintFrame(){
+        frame.table2.updateUI();
         frame.invalidate();
         frame.validate();
         frame.repaint();

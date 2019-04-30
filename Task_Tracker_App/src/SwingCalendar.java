@@ -38,6 +38,7 @@ public class SwingCalendar extends JFrame {
 	String currentDateSelected;
         User user;
         JScrollPane scrollPane;
+        JTable table2;
 	/**
 	 * Serial UID
 	 */
@@ -60,6 +61,8 @@ public class SwingCalendar extends JFrame {
 				formWindowClosing(evt);
 			}
 		});
+                
+                
                 this.user = user;
 		// Label for the Month and Year.
 		label = new JLabel();
@@ -99,6 +102,7 @@ public class SwingCalendar extends JFrame {
 		model = new DefaultTableModel(null, columns);
 		JTable table = new JTable(model);
 		table.setCellSelectionEnabled(true);
+                table2 = new JTable(new TaskTableModel(user.getTasks()));
 		// Cell Listener
                 //This is when date is clicked
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -122,7 +126,7 @@ public class SwingCalendar extends JFrame {
                             currentDateSelected = formatMonthStr(month) + "/" + selectedDay + "/" + year;
                             event.updateBox(currentDateSelected);
                             updateTaskPanelForCurrentDaySelected(currentDateSelected);
-                            scrollPane = new JScrollPane(taskTableMaker());
+                            taskTableMaker();
                             repaintTheFrame();
                         }
 
@@ -146,7 +150,7 @@ public class SwingCalendar extends JFrame {
 		
       
 
-		scrollPane = new JScrollPane(taskTableMaker());
+		scrollPane = new JScrollPane(table2);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setPreferredSize(new Dimension(250, 250));
 
@@ -158,6 +162,8 @@ public class SwingCalendar extends JFrame {
 		updateMonth();
 		selectCurrentDay(table);
                 event.updateBox(currentDateSelected);
+                updateTaskPanelForCurrentDaySelected(currentDateSelected);
+                taskTableMaker();
 	}// end SwingCalendar constructor.
         //class made to handle making the table model.
 	class TaskTableModel extends AbstractTableModel {
@@ -358,9 +364,8 @@ public class SwingCalendar extends JFrame {
             }
         }
         //makes the table from the user ArrayList<Task> object.
-        public JTable taskTableMaker(){
+        public void taskTableMaker(){
                 Object[][] data = new Object[user.getTasks().size()][1];
-                JTable table2 = new JTable(new TaskTableModel(user.getTasks()));
 
 		for (int i = 0; i < user.getTasks().size(); i++) {
 			data[i][0] = user.getTasks().get(i);
@@ -373,7 +378,7 @@ public class SwingCalendar extends JFrame {
                 //table2.setDefaultEditor(EventCell.class, new EventCell());
 		table2.setRowHeight(50);
                 table2.setFocusable(false);
-                return table2;
+                table2.updateUI();
         }
         //repaints the frame.
         public void repaintTheFrame(){
