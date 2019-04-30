@@ -376,6 +376,7 @@ public class SwingCalendar extends JFrame {
 		//table2.getColumn("Task").setCellRenderer(new EventCell());
                 //table2.setDefaultRenderer(EventCell.class, new EventCell());
                 //table2.setDefaultEditor(EventCell.class, new EventCell());
+                        
 		table2.setRowHeight(50);
                 table2.setFocusable(false);
                 table2.updateUI();

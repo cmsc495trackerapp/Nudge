@@ -5,6 +5,7 @@
  *be grabbed by the date which will be formatted MM/DD/YEAR.
  */
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 public class User {
     //Variables for user information and storing tasks for the user.
@@ -23,6 +24,8 @@ public class User {
         return userName + " " + password;
     }
     public List<Task> getTasks (){
+        Collections.sort(tasks);
+        System.out.println(tasks);
         return tasks;
     }
     public void newTasksList(){
