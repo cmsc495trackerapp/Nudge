@@ -25,7 +25,6 @@ public class User {
     }
     public List<Task> getTasks (){
         Collections.sort(tasks);
-        System.out.println(tasks);
         return tasks;
     }
     public void newTasksList(){
