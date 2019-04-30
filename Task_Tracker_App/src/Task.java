@@ -42,7 +42,7 @@ public class Task implements Comparable<Task> {
     }
 
     public String getTask() {
-        return this.task;
+        return "-" + time + " " + task + " (" + category + ")  ";
     }
 
     //setters
