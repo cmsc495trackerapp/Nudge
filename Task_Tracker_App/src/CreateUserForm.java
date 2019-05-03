@@ -173,8 +173,8 @@ public class CreateUserForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField passwordField;
-    private javax.swing.JTextField passwordFieldTwo;
+    private javax.swing.JPasswordField passwordField;
+    private javax.swing.JPasswordField passwordFieldTwo;
     private javax.swing.JTextField userNameField;
     // End of variables declaration//GEN-END:variables
 }
