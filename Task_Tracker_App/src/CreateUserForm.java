@@ -33,10 +33,10 @@ public class CreateUserForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         userNameField = new javax.swing.JTextField();
-        passwordField = new javax.swing.JTextField();
+        passwordField = new javax.swing.JPasswordField();
         createUserButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        passwordFieldTwo = new javax.swing.JTextField();
+        passwordFieldTwo = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
