@@ -165,6 +165,7 @@ public class CreateUserForm extends javax.swing.JFrame {
     //Stops server on closing window.
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         DBConnect.serverStop();
+        System.exit(0);
     }//GEN-LAST:event_formWindowClosing
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
