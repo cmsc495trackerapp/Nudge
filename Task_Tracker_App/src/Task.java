@@ -40,11 +40,12 @@ public class Task implements Comparable<Task> {
     public String getTime() {
         return this.time;
     }
-
-    public String getTask() {
-        return "-" + time + " " + task + " (" + category + ")  ";
+    public String getCategory(){
+        return category;
     }
-
+    public String getTask() {
+        return task;
+    }
     //setters
     public void setDate(String date) {
         this.date = date;
@@ -64,6 +65,9 @@ public class Task implements Comparable<Task> {
             return 0;
         }
         return getTime().compareTo(o.getTime());
+    }
+    public int getId(){
+        return id;
     }
 
 }

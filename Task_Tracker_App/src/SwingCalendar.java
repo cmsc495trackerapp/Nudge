@@ -7,21 +7,23 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -43,6 +45,7 @@ public class SwingCalendar extends JFrame {
     User user;
     JScrollPane scrollPane;
     JTable table2;
+    TaskTableModel taskTableModel;
     /**
      * Serial UID
      */
@@ -106,7 +109,16 @@ public class SwingCalendar extends JFrame {
         model = new DefaultTableModel(null, columns);
         JTable table = new JTable(model);
         table.setCellSelectionEnabled(true);
-        table2 = new JTable(new TaskTableModel(user.getTasks()));
+        ////////////////////////////////////////////////////////////////
+        System.out.println(user.getTasks().size());
+        ///get proper user task on startup here//////////////////////////////
+        Date date = new Date();
+        String strArray[] = date.toString().split(" ");
+        currentDateSelected = formatMonthStr(strArray[1]) + "/" + strArray[2] + "/" + strArray[5];
+        System.out.println(currentDateSelected);
+        updateTaskPanelForCurrentDaySelected(currentDateSelected);
+        taskTableModel = new TaskTableModel(user.getTasks());
+        table2 = new JTable(taskTableModel);
         // Cell Listener
         //This is when date is clicked
         table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -161,11 +173,12 @@ public class SwingCalendar extends JFrame {
         this.add(pane, BorderLayout.WEST);
         this.add(b3, BorderLayout.SOUTH);
         // Builds the calendar days.
-        updateMonth();
         selectCurrentDay(table);
+        updateMonth();
         event.updateBox(currentDateSelected);
         updateTaskPanelForCurrentDaySelected(currentDateSelected);
         taskTableMaker();
+        repaintTheFrame();
     }// end SwingCalendar constructor.
     //class made to handle making the table model.
 
@@ -223,22 +236,17 @@ public class SwingCalendar extends JFrame {
         private static final long serialVersionUID = 1L;
         JPanel panel;
         JLabel text;
-        JButton showButton;
+        JLabel text2;
+        JLabel timeText;
+        JButton editButton;
+        JButton deleteButton;
         Task task;
         //constructor
 
         public EventCell() {
-            showButton = new JButton("Edit");
-            showButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent arg0) {
-                    //TODO: code proper button
-                    //functionality here.
-                    JOptionPane.showMessageDialog(null, "Button not yet Implemented");
-                }
-            });
+            
 
             panel = new JPanel(new GridBagLayout());
-            panel.setLayout(new FlowLayout(FlowLayout.LEFT));
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.HORIZONTAL;
 
@@ -246,32 +254,66 @@ public class SwingCalendar extends JFrame {
             text = new JLabel();
             c.gridx = 0;
             c.gridy = 0;
+            c.insets = new Insets(5,30,5,5);
             panel.add(text, c);
 
-            JLabel text2 = new JLabel("text");
+            text2 = new JLabel();
             c.gridx = 0;
             c.gridy = 1;
             panel.add(text2, c);
-
-            JButton button;
-            button = new JButton("Edit");
+            
+            JLabel timeLabel = new JLabel("Time");
+            c.gridx = 1;
+            c.gridy = 0;
+            c.insets = new Insets(5,60,5,40);
+            panel.add(timeLabel, c);
+            
+            timeText = new JLabel();
             c.gridx = 1;
             c.gridy = 1;
-            panel.add(button, c);
+            panel.add(timeText, c);
 
-            button = new JButton("Delete");
+            editButton = new JButton("Edit");
+            editButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent arg0) {
+                    //TODO: code proper button
+                    //functionality here.
+                    JOptionPane.showMessageDialog(null, "Edit");
+                }
+            });
+            c.insets = new Insets(5,5,5,5);
             c.gridx = 2;
             c.gridy = 1;
-            panel.add(button, c);
+            panel.add(editButton, c);
 
-//            panel.add(text);
-//            panel.add(showButton);
+            deleteButton = new JButton("Delete");
+            deleteButton.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    for(int i = 0; i < user.getTasks().size(); i++){
+                        if(user.getTasks().get(i).getId() == task.getId()){
+                            user.getTasks().remove(i);
+                            table2.removeAll();
+                            deleteTaskFromDB(task.getId());
+                            break;
+                        }
+                    }
+                    repaintTheFrame();
+                    JOptionPane.showMessageDialog(null, "Delete");
+                }
+                
+            });
+            c.gridx = 3;
+            c.gridy = 1;
+            panel.add(deleteButton, c);
         }
 
         private void updateData(Task task, boolean isSelected, JTable table) {
             this.task = task;
 
-            text.setText("" + task.getTask() + "");
+            text.setText(task.getCategory());
+            text2.setText(task.getTask());
+            timeText.setText(task.getTime());
 
             if (isSelected) {
                 panel.setBackground(table.getSelectionBackground());
@@ -380,9 +422,10 @@ public class SwingCalendar extends JFrame {
         } // end outer for loop.
         String strArray[] = date.toString().split(" ");
         currentDateSelected = formatMonthStr(strArray[1]) + "/" + strArray[2] + "/" + strArray[5];
-        System.out.println("Hello");
+        System.out.println(currentDateSelected);
         updateTaskPanelForCurrentDaySelected(currentDateSelected);
         event = new NewEvent(currentDateSelected, user, this);
+        updateTaskPanelForCurrentDaySelected(currentDateSelected);
     }
     //updates the task panel when a date is clicked
 
@@ -400,6 +443,7 @@ public class SwingCalendar extends JFrame {
             ResultSet rs2 = ps2.executeQuery();
             while (rs2.next()) {
                 user.getTasks().add(new Task(rs2.getString("category"), rs2.getString("date"), rs2.getString("time"), rs2.getString("task"), rs2.getInt(1)));
+                System.out.println(user.getTasks());
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -409,20 +453,30 @@ public class SwingCalendar extends JFrame {
 
     public void taskTableMaker() {
         Object[][] data = new Object[user.getTasks().size()][1];
-
+        System.out.println(user.getTasks().size());
         for (int i = 0; i < user.getTasks().size(); i++) {
             data[i][0] = user.getTasks().get(i);
-            System.out.println(user.getTasks().get(i).getTask());
         }
         table2.getColumn("Tasks").setCellRenderer(new EventCell());
         table2.getColumn("Tasks").setCellEditor(new EventCell());
         //table2.getColumn("Task").setCellRenderer(new EventCell());
         //table2.setDefaultRenderer(EventCell.class, new EventCell());
         //table2.setDefaultEditor(EventCell.class, new EventCell());
-
         table2.setRowHeight(100);
         table2.setFocusable(false);
+
+        System.out.println("Before error?");
         table2.updateUI();
+    }
+    
+    public void deleteTaskFromDB(int taskId){
+        try {
+            PreparedStatement statement = con.prepareStatement("DELETE FROM TASKTABLE WHERE ID=?");
+            statement.setInt(1, taskId);
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
     //repaints the frame.
 
