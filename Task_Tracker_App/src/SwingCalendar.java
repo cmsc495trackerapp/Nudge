@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -227,7 +228,6 @@ public class SwingCalendar extends JFrame {
         //constructor
 
         public EventCell() {
-            text = new JLabel();
             showButton = new JButton("Edit");
             showButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
@@ -236,15 +236,36 @@ public class SwingCalendar extends JFrame {
                     JOptionPane.showMessageDialog(null, "Button not yet Implemented");
                 }
             });
+
             panel = new JPanel(new GridBagLayout());
+            panel.setLayout(new FlowLayout(FlowLayout.LEFT));
             GridBagConstraints c = new GridBagConstraints();
             c.fill = GridBagConstraints.HORIZONTAL;
+
+            //new event button
+            text = new JLabel();
             c.gridx = 0;
             c.gridy = 0;
-            panel.add(text);
-            panel.add(showButton);
-            
- 
+            panel.add(text, c);
+
+            JLabel text2 = new JLabel("text");
+            c.gridx = 0;
+            c.gridy = 1;
+            panel.add(text2, c);
+
+            JButton button;
+            button = new JButton("Edit");
+            c.gridx = 1;
+            c.gridy = 1;
+            panel.add(button, c);
+
+            button = new JButton("Delete");
+            c.gridx = 2;
+            c.gridy = 1;
+            panel.add(button, c);
+
+//            panel.add(text);
+//            panel.add(showButton);
         }
 
         private void updateData(Task task, boolean isSelected, JTable table) {
@@ -399,7 +420,7 @@ public class SwingCalendar extends JFrame {
         //table2.setDefaultRenderer(EventCell.class, new EventCell());
         //table2.setDefaultEditor(EventCell.class, new EventCell());
 
-        table2.setRowHeight(50);
+        table2.setRowHeight(100);
         table2.setFocusable(false);
         table2.updateUI();
     }
