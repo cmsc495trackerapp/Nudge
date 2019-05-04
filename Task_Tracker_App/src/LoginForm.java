@@ -135,8 +135,6 @@ public class LoginForm extends javax.swing.JFrame {
             if(rs.next()){
                 //this rs.getString is how we will get data from db to pass
                 //back into the app.
-                System.out.println(rs.getString("USERNAME"));
-                System.out.println(rs.getString("PASSWORD"));
                 JOptionPane.showMessageDialog(null, "Login Passed");
                 dispose();
                 SwingCalendar calendar = new SwingCalendar(new User(rs.getString("USERNAME"),rs.getString("PASSWORD")));

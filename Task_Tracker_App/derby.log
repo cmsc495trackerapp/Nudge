@@ -1,7 +1,7 @@
-Fri May 03 09:27:27 EDT 2019 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
+Sat May 04 08:48:42 EDT 2019 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Fri May 03 09:27:27 EDT 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-016a-7de0-d1e3-00001d2acfb0 
+Sat May 04 08:48:42 EDT 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-016a-82e3-b3ef-00001d2ae118 
 on database directory C:\Users\ZackaryScott\Documents\GitHub\TrackerAppProtoOne\Task_Tracker_App\TaskAppDatabase with class loader sun.misc.Launcher$AppClassLoader@28d93b30 
 Loaded from file:/C:/Users/ZackaryScott/Documents/GitHub/TrackerAppProtoOne/Task_Tracker_App/dist/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -12,7 +12,7 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
-Fri May 03 09:27:27 EDT 2019 : Could not listen on port 1527 on host localhost:
+Sat May 04 08:48:42 EDT 2019 : Could not listen on port 1527 on host localhost:
  java.net.BindException: Address already in use: JVM_Bind
 An exception was thrown during network server startup. DRDA_ListenPort.S:Could not listen on port 1527 on host localhost:
  java.net.BindException: Address already in use: JVM_Bind
@@ -29,4 +29,4 @@ Caused by: java.lang.Exception: DRDA_ListenPort.S:Could not listen on port 1527 
 	at org.apache.derby.impl.drda.NetworkServerControlImpl.consolePropertyMessage(Unknown Source)
 	at org.apache.derby.impl.drda.NetworkServerControlImpl.blockingStart(Unknown Source)
 	... 6 more
-Fri May 03 09:27:56 EDT 2019 : Apache Derby Network Server - 10.11.1.2 - (1629631) shutdown
+Sat May 04 08:49:02 EDT 2019 : Apache Derby Network Server - 10.11.1.2 - (1629631) shutdown
