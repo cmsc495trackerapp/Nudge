@@ -20,6 +20,7 @@ public class NewEvent extends javax.swing.JFrame {
     Connection con = DBConnect.connectDB();
     SwingCalendar frame;
     public NewEvent(String currentDate, User user, SwingCalendar frame) {
+        super("Nudge");
         initComponents();
         this.user = user;
         this.frame = frame;

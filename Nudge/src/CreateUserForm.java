@@ -18,6 +18,7 @@ public class CreateUserForm extends javax.swing.JFrame {
     Connection con = null;
     //Constructor
     public CreateUserForm() {
+        super("Nudge");
         initComponents();
         con = db.connectDB();
          this.setTitle("Nudge"); 
