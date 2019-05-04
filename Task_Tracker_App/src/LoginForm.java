@@ -20,6 +20,7 @@ public class LoginForm extends javax.swing.JFrame {
     ResultSet rs = null;
     //Constructor
     public LoginForm() {
+        super("Nudge");
         initComponents();
         con = db.connectDB();
     }
