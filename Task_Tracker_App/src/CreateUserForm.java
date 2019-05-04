@@ -20,6 +20,7 @@ public class CreateUserForm extends javax.swing.JFrame {
     public CreateUserForm() {
         initComponents();
         con = db.connectDB();
+         this.setTitle("Nudge"); 
     }
     /**
      * This method is called from within the constructor to initialize the form.

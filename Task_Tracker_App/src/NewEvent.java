@@ -23,6 +23,7 @@ public class NewEvent extends javax.swing.JFrame {
         initComponents();
         this.user = user;
         this.frame = frame;
+        this.setTitle("Nudge"); 
     }
 
     /**

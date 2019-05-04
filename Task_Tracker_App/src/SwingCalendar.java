@@ -58,7 +58,7 @@ public class SwingCalendar extends JFrame {
 
     SwingCalendar(User user) {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Swing Calendar");
+        this.setTitle("Nudge");
         this.setLocation(750, 450);
         this.setSize(600, 400);
         this.setLayout(new BorderLayout());

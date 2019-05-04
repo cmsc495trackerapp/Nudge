@@ -22,6 +22,7 @@ public class LoginForm extends javax.swing.JFrame {
     public LoginForm() {
         initComponents();
         con = db.connectDB();
+        this.setTitle("Nudge"); 
     }
 
     /**
