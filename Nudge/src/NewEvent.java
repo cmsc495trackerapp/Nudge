@@ -1,4 +1,5 @@
 
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,18 +14,20 @@ import javax.swing.JOptionPane;
  *tasks will be put into the database.
  */
 public class NewEvent extends javax.swing.JFrame {
+
     /**
      * Creates new form CreateNewEventGUI
      */
     User user;
     Connection con = DBConnect.connectDB();
     SwingCalendar frame;
+
     public NewEvent(String currentDate, User user, SwingCalendar frame) {
         super("Nudge");
         initComponents();
         this.user = user;
         this.frame = frame;
-        this.setTitle("Nudge"); 
+        this.setTitle("Nudge");
     }
 
     /**
@@ -51,7 +54,7 @@ public class NewEvent extends javax.swing.JFrame {
         saveButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         dateTextField = new javax.swing.JTextField();
-        timeTextField = new javax.swing.JTextField();
+        timeField = new javax.swing.JTextField();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -106,7 +109,7 @@ public class NewEvent extends javax.swing.JFrame {
 
         taskTextArea.setColumns(20);
         taskTextArea.setRows(5);
-        taskTextArea.setText("a");
+        taskTextArea.setText(" ");
         jScrollPane1.setViewportView(taskTextArea);
 
         saveButton.setText("Save");
@@ -126,13 +129,7 @@ public class NewEvent extends javax.swing.JFrame {
             }
         });
 
-        timeTextField.setText("a");
-        timeTextField.setToolTipText("X:XX A.M. or P.M.");
-        timeTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                timeTextFieldActionPerformed(evt);
-            }
-        });
+        timeField.setText(null);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,12 +154,11 @@ public class NewEvent extends javax.swing.JFrame {
                                     .addComponent(jLabel5))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(timeTextField)
                                     .addComponent(dateTextField)
-                                    .addComponent(eventBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 9, Short.MAX_VALUE)))))
+                                    .addComponent(eventBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(timeField)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)))
                 .addGap(11, 11, 11))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -186,9 +182,9 @@ public class NewEvent extends javax.swing.JFrame {
                         .addComponent(jLabel4))
                     .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(timeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -205,55 +201,76 @@ public class NewEvent extends javax.swing.JFrame {
     //this saves the task to the database and repaints the SwingCalendar
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
-            if(!taskTextArea.getText().isEmpty()
-                    &&!dateTextField.getText().isEmpty()
-                    &&!timeTextField.getText().isEmpty()
-                    &&!taskTextArea.getText().isEmpty()){
+            if (!taskTextArea.getText().isEmpty()
+                    && !dateTextField.getText().isEmpty()
+                    && !taskTextArea.getText().isEmpty()) {
                 String category = eventBox.getSelectedItem().toString();
                 String date = dateTextField.getText();
-                String time = timeTextField.getText();
-                String task = taskTextArea.getText();
+                String time = null;
+                int userTime = parseInt(timeField.getText());
+
+                if (userTime > 2359) {
+                    JOptionPane.showMessageDialog(null, "Please enter 24-hour (Military) time");
+
+                } else {
+                    time = String.format("%04d", userTime);
+                                   String task = taskTextArea.getText();
                 PreparedStatement ps = con.prepareStatement("INSERT INTO "
-                                        + "TASKTABLE (USERNAME, CATEGORY, DATE, TIME, TASK)"
-                                        + "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1,user.getName());
-                ps.setString(2, category);
-                ps.setString(3,date);
-                ps.setString(4, time);
-                ps.setString(5, task);
+                        + "TASKTABLE (USERNAME, CATEGORY, DATE, TIME, TASK)"
+                        + "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+
+                ps.setString(
+                        1, user.getName());
+                ps.setString(
+                        2, category);
+                ps.setString(
+                        3, date);
+                ps.setString(
+                        4, time);
+                ps.setString(
+                        5, task);
                 ps.executeUpdate();
                 ResultSet key = ps.getGeneratedKeys();
-                while(key.next()){
-                    user.getTasks().add(new Task(category,date,time,task, key.getInt(1)));
+
+                while (key.next()) {
+                    user.getTasks().add(new Task(category, date, time, task, key.getInt(1)));
                 }
-                
-                JOptionPane.showMessageDialog(null, 
+
+                JOptionPane.showMessageDialog(
+                        null,
                         "Task created successfully!");
                 dispose();
+
                 repaintFrame();
-            }else{
-                JOptionPane.showMessageDialog(null, 
+
+                }
+ 
+            } else {
+                JOptionPane.showMessageDialog(null,
                         "Check to make everything is filled in!");
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+
             JOptionPane.showMessageDialog(null, "Wrong format for input.");
             //JOptionPane.showMessageDialog(null, "Please fill out all data fields.");
+        } catch (NumberFormatException ex1) {
+            
+            JOptionPane
+            .showMessageDialog(null, "Wrong time input.");
+
         }
     }//GEN-LAST:event_saveButtonActionPerformed
+
 
     private void dateTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dateTextFieldActionPerformed
 
-    private void timeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_timeTextFieldActionPerformed
-
-    public void updateBox(String currentDate){
+    public void updateBox(String currentDate) {
         dateTextField.setText(currentDate);
     }
-    private void repaintFrame(){
+
+    private void repaintFrame() {
         frame.table2.updateUI();
         frame.invalidate();
         frame.validate();
@@ -276,6 +293,6 @@ public class NewEvent extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextArea taskTextArea;
-    private javax.swing.JTextField timeTextField;
+    private javax.swing.JTextField timeField;
     // End of variables declaration//GEN-END:variables
 }
