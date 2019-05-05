@@ -4,7 +4,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 /*File: User.java
  *Author: Zackary Scott, Orin, Chi
@@ -13,18 +16,20 @@ import javax.swing.JOptionPane;
  *tasks will be put into the database.
  */
 public class NewEvent extends javax.swing.JFrame {
+
     /**
      * Creates new form CreateNewEventGUI
      */
     User user;
     Connection con = DBConnect.connectDB();
     SwingCalendar frame;
+
     public NewEvent(String currentDate, User user, SwingCalendar frame) {
         super("Nudge");
         initComponents();
         this.user = user;
         this.frame = frame;
-        this.setTitle("Nudge"); 
+        this.setTitle("Nudge");
     }
 
     /**
@@ -51,7 +56,8 @@ public class NewEvent extends javax.swing.JFrame {
         saveButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         dateTextField = new javax.swing.JTextField();
-        timeTextField = new javax.swing.JTextField();
+        jSpinner1 = new JSpinner(new SpinnerNumberModel(00,00,24,01));
+        jSpinner2 = new JSpinner(new SpinnerNumberModel(00,00,60,01));
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -106,7 +112,7 @@ public class NewEvent extends javax.swing.JFrame {
 
         taskTextArea.setColumns(20);
         taskTextArea.setRows(5);
-        taskTextArea.setText("a");
+        taskTextArea.setText(" ");
         jScrollPane1.setViewportView(taskTextArea);
 
         saveButton.setText("Save");
@@ -126,13 +132,13 @@ public class NewEvent extends javax.swing.JFrame {
             }
         });
 
-        timeTextField.setText("a");
-        timeTextField.setToolTipText("X:XX A.M. or P.M.");
-        timeTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                timeTextFieldActionPerformed(evt);
-            }
-        });
+        JFormattedTextField tf = ((JSpinner.DefaultEditor)jSpinner1.getEditor())
+        .getTextField();
+        tf.setEditable(false);
+
+        JFormattedTextField tf2 = ((JSpinner.DefaultEditor)jSpinner2.getEditor())
+        .getTextField();
+        tf2.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,9 +163,13 @@ public class NewEvent extends javax.swing.JFrame {
                                     .addComponent(jLabel5))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(timeTextField)
                                     .addComponent(dateTextField)
-                                    .addComponent(eventBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(eventBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 9, Short.MAX_VALUE)))))
@@ -186,9 +196,10 @@ public class NewEvent extends javax.swing.JFrame {
                         .addComponent(jLabel4))
                     .addComponent(dateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(timeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -205,34 +216,34 @@ public class NewEvent extends javax.swing.JFrame {
     //this saves the task to the database and repaints the SwingCalendar
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         try {
-            if(!taskTextArea.getText().isEmpty()
-                    &&!dateTextField.getText().isEmpty()
-                    &&!timeTextField.getText().isEmpty()
-                    &&!taskTextArea.getText().isEmpty()){
+            if (!taskTextArea.getText().isEmpty()
+                    && !dateTextField.getText().isEmpty()
+                    && !taskTextArea.getText().isEmpty()) {
                 String category = eventBox.getSelectedItem().toString();
                 String date = dateTextField.getText();
-                String time = timeTextField.getText();
+
+                String time = formatTime();
                 String task = taskTextArea.getText();
                 PreparedStatement ps = con.prepareStatement("INSERT INTO "
-                                        + "TASKTABLE (USERNAME, CATEGORY, DATE, TIME, TASK)"
-                                        + "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1,user.getName());
+                        + "TASKTABLE (USERNAME, CATEGORY, DATE, TIME, TASK)"
+                        + "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, user.getName());
                 ps.setString(2, category);
-                ps.setString(3,date);
+                ps.setString(3, date);
                 ps.setString(4, time);
                 ps.setString(5, task);
                 ps.executeUpdate();
                 ResultSet key = ps.getGeneratedKeys();
-                while(key.next()){
-                    user.getTasks().add(new Task(category,date,time,task, key.getInt(1)));
+                while (key.next()) {
+                    user.getTasks().add(new Task(category, date, time, task, key.getInt(1)));
                 }
-                
-                JOptionPane.showMessageDialog(null, 
+
+                JOptionPane.showMessageDialog(null,
                         "Task created successfully!");
                 dispose();
                 repaintFrame();
-            }else{
-                JOptionPane.showMessageDialog(null, 
+            } else {
+                JOptionPane.showMessageDialog(null,
                         "Check to make everything is filled in!");
             }
         } catch (SQLException ex) {
@@ -242,18 +253,27 @@ public class NewEvent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveButtonActionPerformed
 
+    public String formatTime() {
+        Integer hour = (Integer) jSpinner1.getValue();
+        Integer min = (Integer) jSpinner2.getValue();       
+        String formatHour = String.format("%02d", hour);
+        String formatMin = String.format("%02d", min);
+        String formatTime = formatHour + formatMin;
+        System.out.println(formatTime);
+        return formatTime;
+        
+    }
+
+
     private void dateTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dateTextFieldActionPerformed
 
-    private void timeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_timeTextFieldActionPerformed
-
-    public void updateBox(String currentDate){
+    public void updateBox(String currentDate) {
         dateTextField.setText(currentDate);
     }
-    private void repaintFrame(){
+
+    private void repaintFrame() {
         frame.table2.updateUI();
         frame.invalidate();
         frame.validate();
@@ -274,8 +294,9 @@ public class NewEvent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextArea taskTextArea;
-    private javax.swing.JTextField timeTextField;
     // End of variables declaration//GEN-END:variables
 }
