@@ -1,13 +1,11 @@
 
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 
 /*File: User.java
  *Author: Zackary Scott, Orin, Chi
@@ -56,8 +54,7 @@ public class NewEvent extends javax.swing.JFrame {
         saveButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         dateTextField = new javax.swing.JTextField();
-        jSpinner1 = new JSpinner(new SpinnerNumberModel(00,00,24,01));
-        jSpinner2 = new JSpinner(new SpinnerNumberModel(00,00,60,01));
+        timeField = new javax.swing.JTextField();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -132,13 +129,7 @@ public class NewEvent extends javax.swing.JFrame {
             }
         });
 
-        JFormattedTextField tf = ((JSpinner.DefaultEditor)jSpinner1.getEditor())
-        .getTextField();
-        tf.setEditable(false);
-
-        JFormattedTextField tf2 = ((JSpinner.DefaultEditor)jSpinner2.getEditor())
-        .getTextField();
-        tf2.setEditable(false);
+        timeField.setText(null);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,14 +156,9 @@ public class NewEvent extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(dateTextField)
                                     .addComponent(eventBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 9, Short.MAX_VALUE)))))
+                                    .addComponent(timeField)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)))
                 .addGap(11, 11, 11))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -198,8 +184,7 @@ public class NewEvent extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -254,14 +239,10 @@ public class NewEvent extends javax.swing.JFrame {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     public String formatTime() {
-        Integer hour = (Integer) jSpinner1.getValue();
-        Integer min = (Integer) jSpinner2.getValue();       
-        String formatHour = String.format("%02d", hour);
-        String formatMin = String.format("%02d", min);
-        String formatTime = formatHour + formatMin;
-        System.out.println(formatTime);
+
+        int userTime = parseInt(timeField.getText());
+        String formatTime = String.format("%04d", userTime);
         return formatTime;
-        
     }
 
 
@@ -294,9 +275,8 @@ public class NewEvent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner2;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextArea taskTextArea;
+    private javax.swing.JTextField timeField;
     // End of variables declaration//GEN-END:variables
 }
