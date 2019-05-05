@@ -206,44 +206,60 @@ public class NewEvent extends javax.swing.JFrame {
                     && !taskTextArea.getText().isEmpty()) {
                 String category = eventBox.getSelectedItem().toString();
                 String date = dateTextField.getText();
+                String time = null;
+                int userTime = parseInt(timeField.getText());
 
-                String time = formatTime();
-                String task = taskTextArea.getText();
+                if (userTime > 2359) {
+                    JOptionPane.showMessageDialog(null, "Please enter 24-hour (Military) time");
+
+                } else {
+                    time = String.format("%04d", userTime);
+                                   String task = taskTextArea.getText();
                 PreparedStatement ps = con.prepareStatement("INSERT INTO "
                         + "TASKTABLE (USERNAME, CATEGORY, DATE, TIME, TASK)"
                         + "VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, user.getName());
-                ps.setString(2, category);
-                ps.setString(3, date);
-                ps.setString(4, time);
-                ps.setString(5, task);
+
+                ps.setString(
+                        1, user.getName());
+                ps.setString(
+                        2, category);
+                ps.setString(
+                        3, date);
+                ps.setString(
+                        4, time);
+                ps.setString(
+                        5, task);
                 ps.executeUpdate();
                 ResultSet key = ps.getGeneratedKeys();
+
                 while (key.next()) {
                     user.getTasks().add(new Task(category, date, time, task, key.getInt(1)));
                 }
 
-                JOptionPane.showMessageDialog(null,
+                JOptionPane.showMessageDialog(
+                        null,
                         "Task created successfully!");
                 dispose();
+
                 repaintFrame();
+
+                }
+ 
             } else {
                 JOptionPane.showMessageDialog(null,
                         "Check to make everything is filled in!");
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+
             JOptionPane.showMessageDialog(null, "Wrong format for input.");
             //JOptionPane.showMessageDialog(null, "Please fill out all data fields.");
+        } catch (NumberFormatException ex1) {
+            
+            JOptionPane
+            .showMessageDialog(null, "Wrong time input.");
+
         }
     }//GEN-LAST:event_saveButtonActionPerformed
-
-    public String formatTime() {
-
-        int userTime = parseInt(timeField.getText());
-        String formatTime = String.format("%04d", userTime);
-        return formatTime;
-    }
 
 
     private void dateTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateTextFieldActionPerformed
