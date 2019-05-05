@@ -16,7 +16,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -260,7 +262,7 @@ public class SwingCalendar extends JFrame {
                         }
                     }
                     repaintTheFrame();
-                    JOptionPane.showMessageDialog(null, "Delete");
+                    JOptionPane.showMessageDialog(null, "Task deleted");
                 }
                 
             });
@@ -408,6 +410,7 @@ public class SwingCalendar extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        Collections.sort(user.getTasks());
     }
     //Makes the data for the tables from the User ArrayList of Tasks.
     public void taskTableMaker() {

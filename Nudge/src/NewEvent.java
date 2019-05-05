@@ -240,8 +240,7 @@ public class NewEvent extends javax.swing.JFrame {
                         null,
                         "Task created successfully!");
                 dispose();
-
-                repaintFrame();
+                frame.updateTaskPanel();
 
                 }
  
