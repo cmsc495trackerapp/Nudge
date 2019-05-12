@@ -1,8 +1,8 @@
-Sun May 05 13:08:27 EDT 2019 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
+Sun May 12 09:45:15 EDT 2019 : Apache Derby Network Server - 10.11.1.2 - (1629631) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sun May 05 13:08:27 EDT 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-016a-88f7-e1b0-00001d2ae120 
-on database directory C:\Users\ZackaryScott\Documents\GitHub\Nudge\Nudge\TaskAppDatabase with class loader sun.misc.Launcher$AppClassLoader@28d93b30 
+Sun May 12 09:45:15 EDT 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.2 - (1629631): instance a816c00e-016a-ac4a-5b6b-00001d2a1a38 
+on database directory C:\Users\ZackaryScott\Documents\GitHub\Nudge\Nudge\TaskAppDatabase with class loader sun.misc.Launcher$AppClassLoader@4554617c 
 Loaded from file:/C:/Users/ZackaryScott/Documents/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_201-b09
@@ -12,7 +12,7 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
-Sun May 05 13:08:28 EDT 2019 : Could not listen on port 1527 on host localhost:
+Sun May 12 09:45:16 EDT 2019 : Could not listen on port 1527 on host localhost:
  java.net.BindException: Address already in use: JVM_Bind
 An exception was thrown during network server startup. DRDA_ListenPort.S:Could not listen on port 1527 on host localhost:
  java.net.BindException: Address already in use: JVM_Bind
@@ -29,4 +29,4 @@ Caused by: java.lang.Exception: DRDA_ListenPort.S:Could not listen on port 1527 
 	at org.apache.derby.impl.drda.NetworkServerControlImpl.consolePropertyMessage(Unknown Source)
 	at org.apache.derby.impl.drda.NetworkServerControlImpl.blockingStart(Unknown Source)
 	... 6 more
-Sun May 05 13:08:35 EDT 2019 : Apache Derby Network Server - 10.11.1.2 - (1629631) shutdown
+Sun May 12 09:45:30 EDT 2019 : Apache Derby Network Server - 10.11.1.2 - (1629631) shutdown

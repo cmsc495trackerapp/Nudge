@@ -1,4 +1,3 @@
-
 /*File: SwingCalendar.java
  *Author: Zackary Scott, Orin, Chi
  *Date: 4/18/2019
@@ -16,7 +15,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;

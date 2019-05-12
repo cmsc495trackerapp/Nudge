@@ -7,12 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-/*
- *TODO: Implement the DBConnect class to get and store information to the tasks
- *area. The User.java and Task.java classes will need to be implemented to 
- *complete this TODO. The Calendar should also put an asterisk next to a date
- *that has a task.
- */
+
 public class CreateUserForm extends javax.swing.JFrame {
     DBConnect db = new DBConnect();
     Connection con = null;

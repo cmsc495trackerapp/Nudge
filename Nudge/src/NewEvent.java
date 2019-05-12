@@ -1,4 +1,9 @@
-
+/*File: User.java
+ *Author: Zackary Scott, Orin, Chi
+ *Date: 4/18/2019
+ *Purpose: Creates a task object that stores tasks in a User HashMap<Task>. The 
+ *tasks will be put into the database.
+ */
 import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,12 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-/*File: User.java
- *Author: Zackary Scott, Orin, Chi
- *Date: 4/18/2019
- *Purpose: Creates a task object that stores tasks in a User HashMap<Task>. The 
- *tasks will be put into the database.
- */
 public class NewEvent extends javax.swing.JFrame {
 
     /**

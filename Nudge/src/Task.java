@@ -1,6 +1,3 @@
-
-import java.util.Collections;
-
 /*File: Task.java
  *Author: Zackary Scott, Orin
  *Date: 4/18/2019
@@ -28,7 +25,7 @@ public class Task implements Comparable<Task> {
     //toString override to return date and task string
     @Override
     public String toString() {
-        return date + "\n" + task;
+        return date + " " + task;
     }
 
     //getters
